@@ -638,6 +638,32 @@ h1, h2, h3 {
 
 .deepdive-benefit strong { color: var(--text-hi); }
 
+.scope-flag {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 32px;
+}
+
+.scope-flag [data-lucide] {
+  color: var(--text-low);
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 16px; height: 16px;
+}
+
+.scope-flag p {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--text-low);
+}
+
+.scope-flag strong { color: var(--text-mid); }
+
 @media (min-width: 720px) {
   .deepdive-items { grid-template-columns: repeat(2, 1fr); }
   .deepdive-items-3 { grid-template-columns: repeat(3, 1fr); }
