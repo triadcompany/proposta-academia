@@ -443,7 +443,7 @@ h1, h2, h3 {
 .deepdive-items {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 28px;
   margin-bottom: 32px;
 }
 
@@ -470,48 +470,150 @@ h1, h2, h3 {
   margin-bottom: 10px;
 }
 
-.deepdive-card > p {
+.deepdive-card > p,
+.tilt-inner > p {
   font-size: 0.92rem;
   line-height: 1.6;
 }
 
-.deepdive-substrategy {
-  list-style: none;
-  margin: 18px 0 0;
-  padding: 18px 0 0;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+/* ---- 3D tilt cards ---- */
+.deepdive-card.tilt-card {
+  background: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  perspective: 1200px;
+  height: 100%;
 }
 
-.deepdive-substrategy li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
+.tilt-card .tilt-inner {
+  position: relative;
+  height: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-card);
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  overflow: hidden;
 }
 
-.deepdive-substrategy strong {
-  color: var(--text-hi);
+.tilt-card:hover .tilt-inner,
+.tilt-card:focus-within .tilt-inner {
+  border-color: rgba(255, 122, 0, 0.4);
+  box-shadow: 0 26px 50px -20px rgba(255, 107, 0, 0.35);
 }
 
-.deepdive-substrategy span:last-child {
-  font-size: 0.86rem;
-  line-height: 1.55;
-  color: var(--text-mid);
+.tilt-inner .deepdive-icon {
+  transform: translateZ(38px);
+  box-shadow: 0 16px 26px -12px rgba(0,0,0,0.55);
 }
 
-.deepdive-sub-icon {
-  width: 28px; height: 28px;
-  border-radius: 8px;
-  background: rgba(255,107,0,0.1);
+.tilt-inner h3,
+.tilt-inner h4 { transform: translateZ(20px); }
+.tilt-inner > p,
+.tilt-inner .pillar-tag { transform: translateZ(12px); }
+
+.tilt-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.09), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tilt-card:hover .tilt-inner::before,
+.tilt-card:focus-within .tilt-inner::before {
+  opacity: 1;
+}
+
+@media (min-width: 720px) {
+  .deepdive-items .offset-down { margin-top: 40px; }
+}
+
+.pillar-lead {
+  font-size: 0.88rem;
+  color: var(--text-low);
+  margin-bottom: 20px;
+}
+
+.pillar-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.pillar-chip.tilt-card { perspective: 900px; }
+
+.pillar-chip .tilt-inner {
+  padding: 22px 22px 20px;
+  cursor: pointer;
+}
+
+.pillar-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(255,107,0,0.12);
   color: var(--accent-2);
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
+  margin-bottom: 14px;
+  transform: translateZ(30px);
 }
 
-.deepdive-sub-icon [data-lucide] { width: 14px; height: 14px; }
+.pillar-chip h4 {
+  font-family: var(--font-head);
+  color: var(--text-hi);
+  font-size: 0.96rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.pillar-tag {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  background: rgba(255,107,0,0.1);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+
+.pillar-detail {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-mid);
+  transition: max-height 0.4s var(--ease), opacity 0.35s var(--ease), margin-top 0.4s var(--ease);
+}
+
+.pillar-chip:hover .pillar-detail,
+.pillar-chip:focus-within .pillar-detail,
+.pillar-chip.open .pillar-detail {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 12px;
+}
+
+.pillar-chip:focus-visible { outline: none; }
+.pillar-chip:focus-visible .tilt-inner { border-color: rgba(255,122,0,0.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card .tilt-inner, .tilt-inner .deepdive-icon, .pillar-detail { transition: none; }
+}
+
+@media (min-width: 640px) {
+  .pillar-row { grid-template-columns: repeat(3, 1fr); }
+}
 
 .deepdive-benefit {
   display: flex;

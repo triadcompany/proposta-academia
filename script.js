@@ -46,3 +46,37 @@ if (!prefersReducedMotion && 'IntersectionObserver' in window) {
 } else {
   document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
 }
+
+// Cards com inclinação 3D que seguem o mouse
+if (!prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
+  document.querySelectorAll('.tilt-card').forEach((card) => {
+    const inner = card.querySelector('.tilt-inner');
+    if (!inner) return;
+    const maxTilt = card.classList.contains('pillar-chip') ? 10 : 8;
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      const rotateY = (px - 0.5) * maxTilt * 2;
+      const rotateX = (0.5 - py) * maxTilt * 2;
+      inner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      card.style.setProperty('--mx', `${px * 100}%`);
+      card.style.setProperty('--my', `${py * 100}%`);
+    });
+
+    card.addEventListener('mouseleave', () => {
+      inner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+  });
+}
+
+// Toque em telas sem hover abre o detalhe do pilar
+document.querySelectorAll('.pillar-chip').forEach((chip) => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.pillar-chip.open').forEach((c) => {
+      if (c !== chip) c.classList.remove('open');
+    });
+    chip.classList.toggle('open');
+  });
+});
